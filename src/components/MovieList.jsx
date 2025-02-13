@@ -22,15 +22,22 @@ const MovieCard = ({ movie }) => {
   );
 };
 
-function MovieList({ searchQuery }) {
+function MovieList({ searchQuery, genre }) {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const apiUrl = searchQuery
-          ? `https://api.themoviedb.org/3/search/movie?api_key=934a6e72620cb80725766b2ed7295fb4&query=${searchQuery}`
-          : `https://api.themoviedb.org/3/movie/popular?api_key=934a6e72620cb80725766b2ed7295fb4`;
+        let apiUrl;
+
+        
+        if (searchQuery) {
+          apiUrl = `https://api.themoviedb.org/3/search/movie?api_key=934a6e72620cb80725766b2ed7295fb4&query=${searchQuery}`;
+        } else if (genre) {
+          apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=934a6e72620cb80725766b2ed7295fb4&with_genres=${genre}`;
+        } else {
+          apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=934a6e72620cb80725766b2ed7295fb4`;
+        }
 
         const response = await fetch(apiUrl);
         if (!response.ok) {
@@ -44,11 +51,10 @@ function MovieList({ searchQuery }) {
     };
 
     fetchMovies();
-  }, [searchQuery]); 
+  }, [searchQuery, genre]);
 
   return (
     <div className="container">
-      
       <div className="row d-flex flex-wrap justify-content-center">
         {movies.length > 0 ? (
           movies.map((movie) => <MovieCard key={movie.id} movie={movie} />)

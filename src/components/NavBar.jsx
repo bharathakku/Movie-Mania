@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
@@ -12,31 +13,33 @@ function NavBar({ onSearch }) {
 
   const handleInputChange = (e) => {
     setQuery(e.target.value);
-    onSearch(e.target.value); 
+    onSearch(e.target.value);
   };
 
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container fluid>
-        <Navbar.Brand href="#">Movie Mania</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/">Movie Mania</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav className="me-auto my-2 my-lg-0" navbarScroll>
-            <Nav.Link href="#">Home</Nav.Link>
-            <Nav.Link href="#">Series</Nav.Link>
+            <Nav.Link as={Link} to="/">Home</Nav.Link>
             <NavDropdown title="Category" id="navbarScrollingDropdown">
-              <NavDropdown.Item href="#">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#">Horror</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/action">
+                Action
+              </NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/horror">
+                Horror
+              </NavDropdown.Item>
             </NavDropdown>
           </Nav>
-         
           <Form className="d-flex">
             <Form.Control
               type="search"
               placeholder="Search Movies..."
               className="me-2"
               value={query}
-              onChange={handleInputChange} 
+              onChange={handleInputChange}
               aria-label="Search"
             />
             <Button variant="outline-success">Search</Button>
